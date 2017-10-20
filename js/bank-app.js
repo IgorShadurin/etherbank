@@ -130,6 +130,7 @@ angular.module('bankApp', [])
             $scope.user.fullBalance = function () {
                 return $scope.user.balance + " ETH";
             };
+            $scope.myCreditRequests = [];
 
             // check until web3 initialized
             $scope.web3Checker = $interval(function () {
@@ -208,6 +209,30 @@ angular.module('bankApp', [])
             };
             $scope.returnLoan = function () {
                 // todo implement
+            };
+            $scope.getMyCreditRequests = function () {
+                $scope.myCreditRequests = [];
+                $scope.bankContract.getUserCreditsIds.call($scope.user.address, function (error, result) {
+                    console.log(error);
+                    console.log(result);
+                    $.each(result, function (index, item) {
+                        $scope.bankContract.CreditRequests.call(item.c[0], function (error, result) {
+                            var id = result[1].c[0];
+                            var sum = result[2].c[0] / 10000;
+                            var days = result[3].c[0];
+                            var percentPerDay = result[4].c[0] / 10000;
+                            var isActive = result[5];
+
+                            $scope.myCreditRequests.push({
+                                id: id,
+                                sum: sum,
+                                days: days,
+                                percentPerDay: percentPerDay,
+                                isActive: isActive
+                            });
+                        });
+                    });
+                });
             };
             $interval(function () {
                 if ($scope.isWeb3()) {

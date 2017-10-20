@@ -112,7 +112,41 @@
                 <p>Отчество: <strong>{{user.middleName}}</strong></p>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="get-credit">...</div>
+        <div role="tabpanel" class="tab-pane" id="get-credit">
+            <h2>Получить кредит</h2>
+            <form novalidate>
+                <div class="form-group">
+                    <label for="creditSum">Сумма кредита в эфирах (ETH)</label>
+                    <input ng-model="creditRequest.sum" type="text" class="form-control" id="creditSum"
+                           placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label for="creditDays">На какое количество дней?</label>
+                    <input ng-model="creditRequest.days" type="text" class="form-control" id="creditDays"
+                           placeholder="10">
+                </div>
+                <div class="form-group">
+                    <label for="creditPercentPerDay">Желаемый процент за пользование деньгами в день</label>
+                    <input ng-model="creditRequest.percentPerDay" type="text" class="form-control"
+                           id="creditPercentPerDay"
+                           placeholder="1">
+                </div>
+
+                <button ng-click="createCreditRequest()" type="submit" class="btn btn-primary">Создать заявку
+                </button>
+                <button ng-click="getMyCreditRequests()" type="submit" class="btn btn-default">Получить список своих
+                    заявок
+                </button>
+            </form>
+
+            <div style="margin-top: 20px" ng-hide="myCreditRequests.length==0">
+                <h2>Мои кредитные заявки</h2>
+                <div ng-repeat="request in myCreditRequests">
+                    <p>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
+                        {{request.percentPerDay}}</p>
+                </div>
+            </div>
+        </div>
         <div role="tabpanel" class="tab-pane" id="create-deposit">...</div>
         <div role="tabpanel" class="tab-pane" id="pension">...</div>
         <div role="tabpanel" class="tab-pane" id="identity">...</div>
