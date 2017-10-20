@@ -131,6 +131,7 @@ angular.module('bankApp', [])
                 return $scope.user.balance + " ETH";
             };
             $scope.myCreditRequests = [];
+            $scope.allCreditRequests = [];
 
             // check until web3 initialized
             $scope.web3Checker = $interval(function () {
@@ -207,6 +208,18 @@ angular.module('bankApp', [])
                     console.log(result);
                 });
             };
+            $scope.lendByCreditRequest = function (requestId, requestSum, requestUser) {
+                console.log('user: ' + requestUser);
+                requestSum = $window.web3.toWei(requestSum);
+                $scope.bankContract.lendByCreditRequest.sendTransaction(requestId, {
+                    value: requestSum//,
+                    //gas: 1900000
+                    //to: requestUser
+                }, function (error, result) {
+                    console.log(error);
+                    console.log(result);
+                });
+            };
             $scope.returnLoan = function () {
                 // todo implement
             };
@@ -232,6 +245,36 @@ angular.module('bankApp', [])
                             });
                         });
                     });
+                });
+            };
+            $scope.getActiveCreditRequests = function () {
+                $scope.allCreditRequests = [];
+                $scope.bankContract.CreditRequestId.call(function (error, result) {
+                    console.log(result);
+                    var requestsCount = result.c[0];
+                    console.log('requests count ' + requestsCount);
+                    var total = requestsCount - 10 > 0 ? requestsCount - 10 : requestsCount;
+                    for (var i = 0; i < total; i++) {
+                        $scope.bankContract.CreditRequests.call(i, function (error, result) {
+                            console.log(error);
+                            console.log(result);
+
+                            var id = result[0].c[0];
+                            var user = result[1];
+                            var sum = result[2].c[0] / 10000;
+                            var days = result[3].c[0];
+                            var percentPerDay = result[4].c[0] / 10000;
+                            var isActive = result[5];
+                            $scope.allCreditRequests.push({
+                                id: id,
+                                user: user,
+                                sum: sum,
+                                days: days,
+                                percentPerDay: percentPerDay,
+                                isActive: isActive
+                            });
+                        });
+                    }
                 });
             };
             $interval(function () {

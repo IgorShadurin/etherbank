@@ -147,9 +147,50 @@
                 </div>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="create-deposit">...</div>
-        <div role="tabpanel" class="tab-pane" id="pension">...</div>
-        <div role="tabpanel" class="tab-pane" id="identity">...</div>
+        <div role="tabpanel" class="tab-pane" id="create-deposit">
+            <h2>Дать в долг под процент</h2>
+            <p>Указываем сумму, с которой хотим открыть вклад, количество дней после которых нужен возврат и
+                процентную ставку за пользование деньгами в день</p>
+            <p>
+                <button class="btn btn-default" role="button" ng-click="getActiveCreditRequests()">
+                    Получить список заявок на кредит
+                </button>
+            </p>
+
+            <div style="margin-top: 20px" ng-hide="allCreditRequests.length==0">
+                <h2>Заявки на кредит</h2>
+                <div ng-repeat="request in allCreditRequests" class="row">
+                    <div class="col-sm-4">
+                        <p>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
+                            {{request.percentPerDay}}</p>
+
+                    </div>
+                    <div class="col-sm-8">
+                        <p>
+                            <button class="btn btn-primary" ng-hide="!request.isActive"
+                                    data-ng-attr-id="currentRequest"
+                                    ng-click="lendByCreditRequest(request.id, request.sum, request.user)">Выдать
+                                кредит
+                            </button>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="pension">
+            <h2>Пенсионный вклад</h2>
+            <p>Долгосрочное вложение денег с возвратом в определенный год (год наступления пенсионного возраста) или
+                с возвратом после смерти вкладчика</p>
+            <p>Проблема в том, чтобы назначить доверенную фирму, которая будет работать через N лет. Возможно нужно
+                использовать какой-то рейтинг доверенных фирм, но как избежать накрутки?</p>
+            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="identity">
+            <h2>Идентификация</h2>
+            <p>Пройдите идентификацию с помощью доступных провайдеров:</p>
+            <p><a target="_blank" href="/">Подтвердить данные с помощью ВКонтакте</a></p>
+        </div>
     </div>
     <hr>
 

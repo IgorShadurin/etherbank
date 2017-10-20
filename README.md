@@ -1,4 +1,4 @@
 # Etherbank
 Bank on Ethereum
 
--bower install
+bower install
