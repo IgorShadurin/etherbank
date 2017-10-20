@@ -16,6 +16,25 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
+    "inputs": [{"name": "FirstName", "type": "string"}, {"name": "LastName", "type": "string"}, {
+        "name": "MiddleName",
+        "type": "string"
+    }],
+    "name": "register",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "usersCount",
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
     "inputs": [],
     "name": "returnLoan",
     "outputs": [],
@@ -54,7 +73,7 @@ var contractAbi = [{
         "name": "LastName",
         "type": "string",
         "value": ""
-    }, {"name": "MiddleName", "type": "string", "value": ""}],
+    }, {"name": "MiddleName", "type": "string", "value": ""}, {"name": "Exists", "type": "bool", "value": false}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -77,13 +96,20 @@ var contractAbi = [{
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
-}, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}];
-var contractWallet = '0xb8a8a8a98a01726F35834396f97Cc4d3eC42D0a0';
+}, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}, {
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "fallback"
+}];
+var contractWallet = '0xb68E7fC5db927561Cab0E9420083832755a81121';
 angular.module('bankApp', [])
     .controller('BankController', ['$scope', '$window', '$interval', function ($scope, $window, $interval) {
             $scope.name = "Криптобанк";
             // contract web3 interface
             $scope.bankContract = null;
+            // NOT_CHECKED, NOT_REGISTERED, REGISTERED, IN_PROGRESS, COMPLETE
+            $scope.registrationStatus = 'NOT_CHECKED';
+            $scope.accountText = '';
 
             $scope.creditRequest = {};
             $scope.creditRequest.sum = 0.1;
@@ -95,6 +121,16 @@ angular.module('bankApp', [])
             $scope.registration.lastName = '';
             $scope.registration.middleName = '';
 
+            $scope.user = {};
+            $scope.user.address = "Загрузка..";
+            $scope.user.balance = "Загрузка..";
+            $scope.user.firstName = "Загрузка..";
+            $scope.user.lastName = "Загрузка..";
+            $scope.user.middleName = "Загрузка..";
+            $scope.user.fullBalance = function () {
+                return $scope.user.balance + " ETH";
+            };
+
             // check until web3 initialized
             $scope.web3Checker = $interval(function () {
                 if ($scope.isWeb3()) {
@@ -105,10 +141,12 @@ angular.module('bankApp', [])
 
             $scope.sendRegistration = function () {
                 console.log($scope.user);
+                $scope.registrationStatus = "IN_PROGRESS";
                 $scope.bankContract.register.sendTransaction($scope.registration.firstName, $scope.registration.lastName, $scope.registration.middleName, function (error, result) {
                     console.log(error);
                     // here will transaction id
                     console.log(result);
+                    $scope.registrationStatus = "COMPLETE";
                 });
             };
 
@@ -141,8 +179,25 @@ angular.module('bankApp', [])
             };
 
             $scope.checkIsRegistered = function () {
-                // todo implement
-                return true;
+                $scope.bankContract.users.call($scope.user.address, function (error, result) {
+                    console.log(error);
+                    console.log(result);
+                    $scope.user.firstName = result[0];
+                    $scope.user.lastName = result[1];
+                    $scope.user.middleName = result[2];
+                    if (error !== undefined) {
+                        // 3 - isRegistered
+                        if (result[3] === true) {
+                            $scope.registrationStatus = "REGISTERED";
+                        } else {
+                            $scope.registrationStatus = "NOT_REGISTERED";
+                        }
+                    } else {
+                        if ($scope.registrationStatus !== "COMPLETE") {
+                            $scope.registrationStatus = "NOT_REGISTERED";
+                        }
+                    }
+                });
             };
             $scope.createCreditRequest = function () {
                 $scope.bankContract.createCreditRequest.sendTransaction($scope.creditRequest.days, $window.web3.toWei($scope.creditRequest.sum, 'ether'), $window.web3.toWei($scope.creditRequest.percentPerDay, 'ether'), function (error, result) {
@@ -154,5 +209,22 @@ angular.module('bankApp', [])
             $scope.returnLoan = function () {
                 // todo implement
             };
+            $interval(function () {
+                if ($scope.isWeb3()) {
+                    $window.web3.eth.getAccounts(function (wtf, data) {
+                        if (data.length) {
+                            var account = data[0];
+                            $scope.user.address = account;
+                            web3.eth.getBalance(account, function (wtf, data) {
+                                $scope.user.balance = $window.web3.fromWei(data);
+                            });
+                            $scope.checkIsRegistered();
+                        } else {
+                            $scope.accountText = 'Введите пароль в своем аккаунте Metamask';
+                        }
+                    });
+
+                }
+            }, 1000);
         }]
     );

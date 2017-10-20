@@ -33,6 +33,12 @@
             <a class="navbar-brand" href="#">{{name}}</a>
         </div>
 
+        <div id="navbar" class="navbar-collapse collapse navbar-right">
+            <span class="navbar-text">Ваши данные</span>
+            <span class="navbar-text">{{user.fullBalance()}}</span>
+            <span class="navbar-text">{{user.address}}</span>
+        </div>
+
     </div>
 </nav>
 
@@ -42,17 +48,17 @@
             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Главная</a>
         </li>
 
-        <li role="presentation">
+        <li role="presentation" ng-hide="registrationStatus!='REGISTERED'">
             <a href="#get-credit" aria-controls="get-credit" role="tab" data-toggle="tab">Получить кредит</a>
         </li>
-        <li role="presentation">
+        <li role="presentation" ng-hide="registrationStatus!='REGISTERED'">
             <a href="#create-deposit" aria-controls="create-deposit" role="tab" data-toggle="tab">Дать в долг
                 под процент</a>
         </li>
-        <li role="presentation">
+        <li role="presentation" ng-hide="registrationStatus!='REGISTERED'">
             <a href="#pension" aria-controls="pension" role="tab" data-toggle="tab">Пенсионный вклад</a>
         </li>
-        <li role="presentation">
+        <li role="presentation" ng-hide="registrationStatus!='REGISTERED'">
             <a href="#identity" aria-controls="identity" role="tab" data-toggle="tab">Идентификация</a>
         </li>
     </ul>
@@ -60,12 +66,51 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home">
-            <h1>Hello</h1>
-            <p>
-                <button ng-click="createCreditRequest()" type="submit" class="btn btn-primary">Создать заявку
-                </button>
-                <button ng-click="sendRegistration()" type="submit" class="btn btn-primary">Регистрация</button>
-            </p>
+            <h2>Главная</h2>
+            <div ng-hide="registrationStatus!='NOT_CHECKED'">
+                <p>Идет проверка вашей регистрации в банке..</p>
+                <p style="color: red;">{{accountText}}</p>
+            </div>
+            <div ng-hide="registrationStatus!='NOT_REGISTERED'">
+                <p>Чтобы воспользоваться услугами банка - пройдите регистрацию</p>
+
+                <form novalidate>
+                    <div class="form-group">
+                        <label for="firstName">Имя</label>
+                        <input ng-model="registration.firstName" type="text" class="form-control" id="firstName"
+                               placeholder="Имя">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Фамилия</label>
+                        <input ng-model="registration.lastName" type="text" class="form-control" id="lastName"
+                               placeholder="Фамилия">
+                    </div>
+                    <div class="form-group">
+                        <label for="middleName">Отчество</label>
+                        <input ng-model="registration.middleName" type="text" class="form-control" id="middleName"
+                               placeholder="Отчество">
+                    </div>
+
+                    <button ng-click="sendRegistration()" type="submit" class="btn btn-primary">Регистрация</button>
+                </form>
+            </div>
+
+            <div ng-hide="registrationStatus!='IN_PROGRESS'">
+                <p>Ваша регистрация отправлена в блокчейн. После подтверждения транзакции - вам откроется весь
+                    функционал банка. Немного подождите..</p>
+            </div>
+
+            <div ng-hide="registrationStatus!='COMPLETE'">
+                <p>Ваша регистрация отправлена в блокчейн. После подтверждения транзакции - вам откроется весь
+                    функционал банка. Немного подождите..</p>
+            </div>
+
+            <div ng-hide="registrationStatus!='REGISTERED'">
+                <p>Вы зарегистрированы в банке. Откройте вклад, возьмите кредит или создайте пенсионный счет</p>
+                <p>Имя: <strong>{{user.firstName}}</strong></p>
+                <p>Фамилия: <strong>{{user.lastName}}</strong></p>
+                <p>Отчество: <strong>{{user.middleName}}</strong></p>
+            </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="get-credit">...</div>
         <div role="tabpanel" class="tab-pane" id="create-deposit">...</div>
