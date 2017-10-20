@@ -1,3 +1,5 @@
+var contractAbi = [];
+var fromWallet = '';
 angular.module('bankApp', [])
     .controller('BankController', ['$scope', '$window', '$interval', function ($scope, $window, $interval) {
             $scope.name = "Криптобанк";
@@ -21,7 +23,7 @@ angular.module('bankApp', [])
                 if (typeof $window.Web3 !== 'undefined') {
                     $window.web3 = new Web3($window.web3.currentProvider);
                     console.log('web3 ok');
-                    $scope.bankContract = $window.web3.eth.contract([/*abi here*/]).at(/*wallet here*/);
+                    $scope.bankContract = $window.web3.eth.contract([contractAbi]).at(fromWallet);
                     console.log($scope.bankContract);
                     $scope.checkNetwork();
 
