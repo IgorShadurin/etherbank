@@ -14,4 +14,5 @@ gen### Example user template template
 *.iml
 out
 gen
-bower_components
+bower.json
+bower_components/
