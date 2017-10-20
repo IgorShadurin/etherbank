@@ -15,7 +15,14 @@ contract mortal {
 
 contract Etherbank is mortal {
     struct CreditRequest {
-
+    uint Id;
+    address User;
+    uint Sum;
+    uint Days;
+    uint PercentPerDay;
+    bool IsActive;
+    address PayBackUser;
+    bool IsPaidBack;
     }
 
     struct Validation {
@@ -30,16 +37,26 @@ contract Etherbank is mortal {
     string FirstName;
     string LastName;
     string MiddleName;
-    // list of validator who validate
+    // list of validators who already validate user
     mapping (address => Validation) Validations;
     }
+
+    mapping (address => User) public users;
+
+    mapping (uint => CreditRequest) public CreditRequests;
+
+    uint public CreditRequestId;
+
+    mapping (address => uint[]) public UserCreditsIds;
 
     function Etherbank(){
 
     }
 
-    function createCreditRequest() payable {
-
+    function createCreditRequest(uint Days, uint Sum, uint PercentPerDay) {
+        CreditRequests[CreditRequestId] = CreditRequest(CreditRequestId, msg.sender, Sum, Days, PercentPerDay, true, address(0), false);
+        UserCreditsIds[msg.sender].push(CreditRequestId);
+        CreditRequestId++;
     }
 
     function returnLoan() payable {
