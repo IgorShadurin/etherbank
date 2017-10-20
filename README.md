@@ -1,0 +1,2 @@
+# etherbank
+Bank on Ethereum
