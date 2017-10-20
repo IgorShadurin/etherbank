@@ -32,7 +32,7 @@ AppAsset::register($this);
 
 <footer class="footer1">
     <div class="container">
-        <p class="pull-left">&copy; DotBy <?= date('Y') ?></p>
+
 
 
     </div>
