@@ -1,5 +1,84 @@
-var contractAbi = [];
-var contractWallet = '';
+var contractAbi = [{
+    "constant": true,
+    "inputs": [{"name": "", "type": "address"}, {"name": "", "type": "uint256"}],
+    "name": "UserCreditsIds",
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [],
+    "name": "kill",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [],
+    "name": "returnLoan",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "", "type": "uint256"}],
+    "name": "CreditRequests",
+    "outputs": [{"name": "Id", "type": "uint256", "value": "0"}, {
+        "name": "User",
+        "type": "address",
+        "value": "0x0000000000000000000000000000000000000000"
+    }, {"name": "Sum", "type": "uint256", "value": "0"}, {
+        "name": "Days",
+        "type": "uint256",
+        "value": "0"
+    }, {"name": "PercentPerDay", "type": "uint256", "value": "0"}, {
+        "name": "IsActive",
+        "type": "bool",
+        "value": false
+    }, {
+        "name": "PayBackUser",
+        "type": "address",
+        "value": "0x0000000000000000000000000000000000000000"
+    }, {"name": "IsPaidBack", "type": "bool", "value": false}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "", "type": "address"}],
+    "name": "users",
+    "outputs": [{"name": "FirstName", "type": "string", "value": ""}, {
+        "name": "LastName",
+        "type": "string",
+        "value": ""
+    }, {"name": "MiddleName", "type": "string", "value": ""}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "CreditRequestId",
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "Days", "type": "uint256"}, {"name": "Sum", "type": "uint256"}, {
+        "name": "PercentPerDay",
+        "type": "uint256"
+    }],
+    "name": "createCreditRequest",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}];
+var contractWallet = '0xb8a8a8a98a01726F35834396f97Cc4d3eC42D0a0';
 angular.module('bankApp', [])
     .controller('BankController', ['$scope', '$window', '$interval', function ($scope, $window, $interval) {
             $scope.name = "Криптобанк";
