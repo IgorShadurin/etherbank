@@ -90,6 +90,11 @@ angular.module('bankApp', [])
             $scope.creditRequest.days = 10;
             $scope.creditRequest.percentPerDay = 1;
 
+            $scope.registration = {};
+            $scope.registration.firstName = '';
+            $scope.registration.lastName = '';
+            $scope.registration.middleName = '';
+
             // check until web3 initialized
             $scope.web3Checker = $interval(function () {
                 if ($scope.isWeb3()) {
@@ -99,7 +104,12 @@ angular.module('bankApp', [])
             }, 100);
 
             $scope.sendRegistration = function () {
-                // todo implement
+                console.log($scope.user);
+                $scope.bankContract.register.sendTransaction($scope.registration.firstName, $scope.registration.lastName, $scope.registration.middleName, function (error, result) {
+                    console.log(error);
+                    // here will transaction id
+                    console.log(result);
+                });
             };
 
             // check and initialize web3
@@ -107,7 +117,7 @@ angular.module('bankApp', [])
                 if (typeof $window.Web3 !== 'undefined') {
                     $window.web3 = new Web3($window.web3.currentProvider);
                     console.log('web3 ok');
-                    $scope.bankContract = $window.web3.eth.contract([contractAbi]).at(contractWallet);
+                    $scope.bankContract = $window.web3.eth.contract(contractAbi).at(contractWallet);
                     console.log($scope.bankContract);
                     $scope.checkNetwork();
 

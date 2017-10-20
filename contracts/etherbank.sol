@@ -37,6 +37,7 @@ contract Etherbank is mortal {
     string FirstName;
     string LastName;
     string MiddleName;
+    bool Exists;
     // list of validators who already validate user
     mapping (address => Validation) Validations;
     }
@@ -48,6 +49,8 @@ contract Etherbank is mortal {
     uint public CreditRequestId;
 
     mapping (address => uint[]) public UserCreditsIds;
+
+    uint public usersCount;
 
     function Etherbank(){
 
@@ -63,5 +66,12 @@ contract Etherbank is mortal {
 
     function returnLoan() payable {
 
+    }
+
+    function register(string FirstName, string LastName, string MiddleName)
+    {
+        assert(users[msg.sender].Exists != true);
+        users[msg.sender] = User(FirstName, LastName, MiddleName, true);
+        usersCount++;
     }
 }

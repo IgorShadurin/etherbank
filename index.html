@@ -37,26 +37,40 @@
 </nav>
 
 <div class="container main-content-container">
-    <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                  data-toggle="tab">Home</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+        <li role="presentation" class="active">
+            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Главная</a>
         </li>
-        <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+
+        <li role="presentation">
+            <a href="#get-credit" aria-controls="get-credit" role="tab" data-toggle="tab">Получить кредит</a>
+        </li>
+        <li role="presentation">
+            <a href="#create-deposit" aria-controls="create-deposit" role="tab" data-toggle="tab">Дать в долг
+                под процент</a>
+        </li>
+        <li role="presentation">
+            <a href="#pension" aria-controls="pension" role="tab" data-toggle="tab">Пенсионный вклад</a>
+        </li>
+        <li role="presentation">
+            <a href="#identity" aria-controls="identity" role="tab" data-toggle="tab">Идентификация</a>
         </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home">
-            <button ng-click="createCreditRequest()" type="submit" class="btn btn-primary">Создать заявку
-            </button>
+            <h1>Hello</h1>
+            <p>
+                <button ng-click="createCreditRequest()" type="submit" class="btn btn-primary">Создать заявку
+                </button>
+                <button ng-click="sendRegistration()" type="submit" class="btn btn-primary">Регистрация</button>
+            </p>
         </div>
-        <div role="tabpanel" class="tab-pane" id="profile">...</div>
-        <div role="tabpanel" class="tab-pane" id="messages">...</div>
-        <div role="tabpanel" class="tab-pane" id="settings">...</div>
+        <div role="tabpanel" class="tab-pane" id="get-credit">...</div>
+        <div role="tabpanel" class="tab-pane" id="create-deposit">...</div>
+        <div role="tabpanel" class="tab-pane" id="pension">...</div>
+        <div role="tabpanel" class="tab-pane" id="identity">...</div>
     </div>
     <hr>
 
