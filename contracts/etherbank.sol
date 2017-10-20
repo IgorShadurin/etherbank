@@ -18,6 +18,18 @@ contract Etherbank is mortal {
 
     }
 
+    struct Validation {
+    }
+
+    struct User
+    {
+    string FirstName;
+    string LastName;
+    string MiddleName;
+    bool Exists;
+    mapping (address => Validation) Validations;
+    }
+
     function Etherbank(){
 
     }
