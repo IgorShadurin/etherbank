@@ -53,6 +53,8 @@ contract Etherbank is mortal {
 
     }
 
+    function() payable {}
+
     function createCreditRequest(uint Days, uint Sum, uint PercentPerDay) {
         CreditRequests[CreditRequestId] = CreditRequest(CreditRequestId, msg.sender, Sum, Days, PercentPerDay, true, address(0), false);
         UserCreditsIds[msg.sender].push(CreditRequestId);

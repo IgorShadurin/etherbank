@@ -85,6 +85,11 @@ angular.module('bankApp', [])
             // contract web3 interface
             $scope.bankContract = null;
 
+            $scope.creditRequest = {};
+            $scope.creditRequest.sum = 0.1;
+            $scope.creditRequest.days = 10;
+            $scope.creditRequest.percentPerDay = 1;
+
             // check until web3 initialized
             $scope.web3Checker = $interval(function () {
                 if ($scope.isWeb3()) {
@@ -130,7 +135,11 @@ angular.module('bankApp', [])
                 return true;
             };
             $scope.createCreditRequest = function () {
-                // todo implement
+                $scope.bankContract.createCreditRequest.sendTransaction($scope.creditRequest.days, $window.web3.toWei($scope.creditRequest.sum, 'ether'), $window.web3.toWei($scope.creditRequest.percentPerDay, 'ether'), function (error, result) {
+                    console.log(error);
+                    // here will transaction id
+                    console.log(result);
+                });
             };
             $scope.returnLoan = function () {
                 // todo implement
