@@ -19,6 +19,10 @@ contract Etherbank is mortal {
     }
 
     struct Validation {
+    address ValidatorAddress;
+    bool FirstNameChecked;
+    bool LastNameChecked;
+    bool MiddleNameChecked;
     }
 
     struct User
@@ -26,7 +30,7 @@ contract Etherbank is mortal {
     string FirstName;
     string LastName;
     string MiddleName;
-    bool Exists;
+    // list of validator who validate
     mapping (address => Validation) Validations;
     }
 
