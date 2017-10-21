@@ -27,23 +27,27 @@ $this->title = 'Items';
     <div class="row goods-row hide text-center">
         <div class="col-sm-4">
             <p><img class="goods" src="<?= Url::to('@web/images/goods-1.jpg') ?>" alt=""></p>
+            <h2>17 000 ₽ / 1 ETH</h2>
             <p>
-                <button class="btn btn-primary btn-buy ">Купить в кредит за ETH</button>
+                <button class="btn btn-primary btn-buy" data-eth-price="1">Купить в кредит за ETH</button>
             </p>
         </div>
         <div class="col-sm-4">
             <p>
                 <img class="goods" src="<?= Url::to('@web/images/goods-2.jpg') ?>" alt="">
             </p>
+            <h2>16 000 ₽ / 0.95 ETH</h2>
             <p>
-                <button class="btn btn-primary btn-buy ">Купить в кредит за ETH</button>
+                <button class="btn btn-primary btn-buy" data-eth-price="0.95">Купить в кредит за ETH</button>
             </p>
         </div>
         <div class="col-sm-4">
-            <p><img class="goods" src="<?= Url::to('@web/images/goods-3.jpg') ?>" alt="">
-            </p>
             <p>
-                <button class="btn btn-primary btn-buy ">Купить в кредит за ETH</button>
+                <img class="goods" src="<?= Url::to('@web/images/goods-3.jpg') ?>" alt="">
+            </p>
+            <h2>120 000 ₽ / 6.66 ETH</h2>
+            <p>
+                <button class="btn btn-primary btn-buy" data-eth-price="6.66">Купить в кредит за ETH</button>
             </p>
         </div>
     </div>
