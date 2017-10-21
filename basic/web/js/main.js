@@ -151,8 +151,13 @@ var contractWallet = '0x66EB47e2175960DE3762fb95F037CcBe714bB81D';
 var bankContract;
 
 $('.btn-buy').click(function () {
-    // todo web3 call contract
+    var days = 30;
+    var sum = 0.123;
+    var percentPerDay = 0.1;
+    var sellerAddress = '0x9a6bA5C96AdD06229f0F6d9F6b4bD39C4994EB43';
+    bankContract.buyForCredit.sendTransaction(days, sum, percentPerDay, sellerAddress, function (error, result) {
 
+    });
 });
 
 checkWeb3Interval = setInterval(function () {
