@@ -186,13 +186,13 @@ var contractAbi = [{
 var contractWallet = '0x4A3bf4F4daa64f94eA6F70019c128036a5764Dfb';
 var bankContract = null;
 
-VK.init(function () {
+/*VK.init(function () {
     VK.addCallback('onSettingsChanged', function f(loc) {
         location.reload(true);
     });
 }, function () {
     location.reload(true);
-}, '5.68');
+}, '5.68');*/
 
 $('.btn-buy').click(function () {
     var currentButton = $(this);
@@ -208,9 +208,9 @@ $('.btn-buy').click(function () {
     });
 });
 
-$('.btn-open-market').click(function () {
+/*$('.btn-open-market').click(function () {
     VK.callMethod("showSettingsBox", 134217728);
-});
+});*/
 
 checkWeb3Interval = setInterval(function () {
     if (typeof Web3 !== 'undefined') {
