@@ -41,17 +41,9 @@ var contractAbi = [{
     "constant": true,
     "inputs": [],
     "name": "usersCount",
-    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "outputs": [{"name": "", "type": "uint256", "value": "1"}],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-}, {
-    "constant": false,
-    "inputs": [],
-    "name": "returnLoan",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
     "type": "function"
 }, {
     "constant": false,
@@ -65,23 +57,23 @@ var contractAbi = [{
     "constant": true,
     "inputs": [{"name": "", "type": "uint256"}],
     "name": "CreditRequests",
-    "outputs": [{"name": "Id", "type": "uint256", "value": "0"}, {
+    "outputs": [{"name": "Id", "type": "uint256", "value": "2"}, {
         "name": "User",
         "type": "address",
-        "value": "0x0000000000000000000000000000000000000000"
-    }, {"name": "Sum", "type": "uint256", "value": "0"}, {
+        "value": "0x9a6ba5c96add06229f0f6d9f6b4bd39c4994eb43"
+    }, {"name": "Sum", "type": "uint256", "value": "100000000000000000"}, {
         "name": "Days",
         "type": "uint256",
-        "value": "0"
-    }, {"name": "PercentPerDay", "type": "uint256", "value": "0"}, {
+        "value": "999"
+    }, {"name": "PercentPerDay", "type": "uint256", "value": "100000000000000000"}, {
         "name": "IsActive",
         "type": "bool",
         "value": false
     }, {
         "name": "PayBackUser",
         "type": "address",
-        "value": "0x0000000000000000000000000000000000000000"
-    }, {"name": "IsPaidBack", "type": "bool", "value": false}, {
+        "value": "0x980f5ac0fe183479b87f78e7892f8002fb9d5401"
+    }, {"name": "IsPaidBack", "type": "bool", "value": true}, {
         "name": "IsDirectPayToSeller",
         "type": "bool",
         "value": false
@@ -119,7 +111,7 @@ var contractAbi = [{
     "constant": true,
     "inputs": [],
     "name": "CreditRequestId",
-    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "outputs": [{"name": "", "type": "uint256", "value": "4"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -135,6 +127,14 @@ var contractAbi = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
+    "constant": false,
+    "inputs": [{"name": "requestId", "type": "uint256"}],
+    "name": "returnLoan",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
     "constant": true,
     "inputs": [{"name": "UserAddress", "type": "address"}],
     "name": "getUserCreditsIds",
@@ -147,7 +147,7 @@ var contractAbi = [{
     "stateMutability": "payable",
     "type": "fallback"
 }];
-var contractWallet = '0x12A704B1717caaf52E1e68fB4964E5b8B7006115';
+var contractWallet = '0x66EB47e2175960DE3762fb95F037CcBe714bB81D';
 var bankContract;
 
 $('.btn-buy').click(function () {
