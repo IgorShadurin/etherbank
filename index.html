@@ -102,7 +102,7 @@
             </div>
 
             <div ng-hide="registrationStatus!='COMPLETE'">
-                <p>Транзакция подтверждена! Ожидаем появления данных в провайдере (около минуты)..</p>
+                <p>Транзакция подтверждена! Ожидаем появления данных в блоке (около минуты)..</p>
             </div>
 
             <div ng-hide="registrationStatus!='REGISTERED'">
@@ -175,8 +175,6 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="create-deposit">
             <h2>Дать в долг под процент</h2>
-            <p>Указываем сумму, с которой хотим открыть вклад, количество дней после которых нужен возврат и
-                процентную ставку за пользование деньгами в день</p>
             <p>
                 <button class="btn btn-default" role="button" ng-click="getActiveCreditRequests()">
                     Получить список заявок на кредит
@@ -217,11 +215,28 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="pension">
             <h2>Пенсионный вклад</h2>
-            <p>Долгосрочное вложение денег с возвратом в определенный год (год наступления пенсионного возраста) или
-                с возвратом после смерти вкладчика</p>
-            <p>Проблема в том, чтобы назначить доверенную фирму, которая будет работать через N лет. Возможно нужно
-                использовать какой-то рейтинг доверенных фирм, но как избежать накрутки?</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <form novalidate>
+                <div class="form-group">
+                    <label for="pensionSum">Сумма пенсионного вклада в эфирах (ETH)</label>
+                    <input ng-model="pension.sum" type="text" class="form-control" id="pensionSum"
+                           placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label for="pensionYears">На сколько лет?</label>
+                    <input ng-model="pension.years" type="text" class="form-control" id="pensionYears"
+                           placeholder="10">
+                </div>
+                <div class="form-group">
+                    <label for="pensionReceivers">Кошельки наследников через запятую</label>
+                    <input ng-model="pension.receivers" type="text" class="form-control"
+                           id="pensionReceivers"
+                           placeholder="">
+                </div>
+
+                <button ng-click="openPension()" type="submit" class="btn btn-primary">
+                    Открыть пенсионный вклад
+                </button>
+            </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="identity">
             <h2>Идентификация</h2>

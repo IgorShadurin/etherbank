@@ -118,8 +118,8 @@ contract Etherbank is mortal {
         usersCount++;
     }
 
-    function openPension(uint Sum, uint ReturnDate, address[] Receivers) payable {
-        Pensions[msg.sender] = Pension(msg.sender, Sum, ReturnDate, Receivers);
+    function openPension(uint ReturnDate, address[] Receivers) payable {
+        Pensions[msg.sender] = Pension(msg.sender, msg.value, ReturnDate, Receivers);
     }
 
     function addToPension() payable {

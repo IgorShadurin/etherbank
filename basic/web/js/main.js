@@ -148,17 +148,6 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
-    "inputs": [{"name": "Sum", "type": "uint256"}, {"name": "ReturnDate", "type": "uint256"}, {
-        "name": "Receivers",
-        "type": "address[]"
-    }],
-    "name": "openPension",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-}, {
-    "constant": false,
     "inputs": [{"name": "requestId", "type": "uint256"}],
     "name": "returnLoan",
     "outputs": [],
@@ -175,6 +164,14 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
+    "inputs": [{"name": "ReturnDate", "type": "uint256"}, {"name": "Receivers", "type": "address[]"}],
+    "name": "openPension",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": false,
     "inputs": [{"name": "PensionOwner", "type": "address"}, {"name": "ReturnToOwner", "type": "bool"}],
     "name": "closeAndReturnPension",
     "outputs": [],
@@ -186,7 +183,7 @@ var contractAbi = [{
     "stateMutability": "payable",
     "type": "fallback"
 }];
-var contractWallet = '0x8Cc9e7f6d7520ad018530A44D49ad796aC507989';
+var contractWallet = '0x4A3bf4F4daa64f94eA6F70019c128036a5764Dfb';
 var bankContract = null;
 
 $('.btn-buy').click(function () {
