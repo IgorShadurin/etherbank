@@ -16,6 +16,17 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
+    "inputs": [{"name": "Days", "type": "uint256"}, {"name": "Sum", "type": "uint256"}, {
+        "name": "PercentPerDay",
+        "type": "uint256"
+    }, {"name": "SellerAddress", "type": "address"}],
+    "name": "buyForCredit",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
     "inputs": [{"name": "FirstName", "type": "string"}, {"name": "LastName", "type": "string"}, {
         "name": "MiddleName",
         "type": "string"
@@ -42,6 +53,14 @@ var contractAbi = [{
     "stateMutability": "payable",
     "type": "function"
 }, {
+    "constant": false,
+    "inputs": [{"name": "requestId", "type": "uint256"}],
+    "name": "lendByCreditRequest",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
     "constant": true,
     "inputs": [{"name": "", "type": "uint256"}],
     "name": "CreditRequests",
@@ -61,7 +80,11 @@ var contractAbi = [{
         "name": "PayBackUser",
         "type": "address",
         "value": "0x0000000000000000000000000000000000000000"
-    }, {"name": "IsPaidBack", "type": "bool", "value": false}],
+    }, {"name": "IsPaidBack", "type": "bool", "value": false}, {
+        "name": "IsDirectPayToSeller",
+        "type": "bool",
+        "value": false
+    }, {"name": "SellerAddress", "type": "address", "value": "0x0000000000000000000000000000000000000000"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -76,6 +99,20 @@ var contractAbi = [{
     }, {"name": "MiddleName", "type": "string", "value": ""}, {"name": "Exists", "type": "bool", "value": false}],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "UserAddress", "type": "address"}, {"name": "Days", "type": "uint256"}, {
+        "name": "Sum",
+        "type": "uint256"
+    }, {"name": "PercentPerDay", "type": "uint256"}, {
+        "name": "IsDirectPay",
+        "type": "bool"
+    }, {"name": "DirectPayAddress", "type": "address"}],
+    "name": "_creditRequest",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
 }, {
     "constant": true,
@@ -96,12 +133,20 @@ var contractAbi = [{
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "UserAddress", "type": "address"}],
+    "name": "getUserCreditsIds",
+    "outputs": [{"name": "", "type": "uint256[]", "value": []}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
 }, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}, {
     "payable": true,
     "stateMutability": "payable",
     "type": "fallback"
 }];
-var contractWallet = '0xb68E7fC5db927561Cab0E9420083832755a81121';
+var contractWallet = '0x12A704B1717caaf52E1e68fB4964E5b8B7006115';
 angular.module('bankApp', [])
     .controller('BankController', ['$scope', '$window', '$interval', function ($scope, $window, $interval) {
             $scope.name = "Криптобанк";
