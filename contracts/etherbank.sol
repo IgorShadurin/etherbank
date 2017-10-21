@@ -23,6 +23,8 @@ contract Etherbank is mortal {
     bool IsActive;
     address PayBackUser;
     bool IsPaidBack;
+    bool IsDirectPayToSeller;
+    address SellerAddress;
     }
 
     struct Validation {
@@ -62,17 +64,27 @@ contract Etherbank is mortal {
         return UserCreditsIds[UserAddress];
     }
 
-    function createCreditRequest(uint Days, uint Sum, uint PercentPerDay) {
-        CreditRequests[CreditRequestId] = CreditRequest(CreditRequestId, msg.sender, Sum, Days, PercentPerDay, true, address(0), false);
+    function _creditRequest(address UserAddress, uint Days, uint Sum, uint PercentPerDay, bool IsDirectPay, address DirectPayAddress){
+        CreditRequests[CreditRequestId] = CreditRequest(CreditRequestId, UserAddress, Sum, Days, PercentPerDay, true, address(0), false, IsDirectPay, DirectPayAddress);
         UserCreditsIds[msg.sender].push(CreditRequestId);
         CreditRequestId++;
+    }
+
+    function createCreditRequest(uint Days, uint Sum, uint PercentPerDay) {
+        _creditRequest(msg.sender, Days, Sum, PercentPerDay, false, address(0));
     }
 
     function lendByCreditRequest(uint requestId) payable {
         CreditRequest memory request = CreditRequests[requestId];
         assert(request.IsActive == true);
         assert(request.Sum == msg.value);
-        request.User.transfer(msg.value);
+        if (request.IsDirectPayToSeller) {
+            request.SellerAddress.transfer(msg.value);
+        }
+        else {
+            request.User.transfer(msg.value);
+        }
+
         CreditRequests[requestId].IsActive = false;
         CreditRequests[requestId].PayBackUser = msg.sender;
     }
@@ -86,5 +98,9 @@ contract Etherbank is mortal {
         assert(users[msg.sender].Exists != true);
         users[msg.sender] = User(FirstName, LastName, MiddleName, true);
         usersCount++;
+    }
+
+    function buyForCredit(uint Days, uint Sum, uint PercentPerDay, address SellerAddress){
+        _creditRequest(msg.sender, Days, Sum, PercentPerDay, true, SellerAddress);
     }
 }
