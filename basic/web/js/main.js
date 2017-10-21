@@ -41,7 +41,7 @@ var contractAbi = [{
     "constant": true,
     "inputs": [],
     "name": "usersCount",
-    "outputs": [{"name": "", "type": "uint256", "value": "1"}],
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -57,23 +57,23 @@ var contractAbi = [{
     "constant": true,
     "inputs": [{"name": "", "type": "uint256"}],
     "name": "CreditRequests",
-    "outputs": [{"name": "Id", "type": "uint256", "value": "2"}, {
+    "outputs": [{"name": "Id", "type": "uint256", "value": "0"}, {
         "name": "User",
         "type": "address",
-        "value": "0x9a6ba5c96add06229f0f6d9f6b4bd39c4994eb43"
-    }, {"name": "Sum", "type": "uint256", "value": "100000000000000000"}, {
+        "value": "0x0000000000000000000000000000000000000000"
+    }, {"name": "Sum", "type": "uint256", "value": "0"}, {
         "name": "Days",
         "type": "uint256",
-        "value": "999"
-    }, {"name": "PercentPerDay", "type": "uint256", "value": "100000000000000000"}, {
+        "value": "0"
+    }, {"name": "PercentPerDay", "type": "uint256", "value": "0"}, {
         "name": "IsActive",
         "type": "bool",
         "value": false
     }, {
         "name": "PayBackUser",
         "type": "address",
-        "value": "0x980f5ac0fe183479b87f78e7892f8002fb9d5401"
-    }, {"name": "IsPaidBack", "type": "bool", "value": true}, {
+        "value": "0x0000000000000000000000000000000000000000"
+    }, {"name": "IsPaidBack", "type": "bool", "value": false}, {
         "name": "IsDirectPayToSeller",
         "type": "bool",
         "value": false
@@ -95,6 +95,26 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
+    "inputs": [],
+    "name": "addToPension",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "", "type": "address"}],
+    "name": "Pensions",
+    "outputs": [{
+        "name": "User",
+        "type": "address",
+        "value": "0x0000000000000000000000000000000000000000"
+    }, {"name": "Sum", "type": "uint256", "value": "0"}, {"name": "ReturnDate", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
     "inputs": [{"name": "UserAddress", "type": "address"}, {"name": "Days", "type": "uint256"}, {
         "name": "Sum",
         "type": "uint256"
@@ -111,7 +131,7 @@ var contractAbi = [{
     "constant": true,
     "inputs": [],
     "name": "CreditRequestId",
-    "outputs": [{"name": "", "type": "uint256", "value": "4"}],
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -125,6 +145,17 @@ var contractAbi = [{
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "Sum", "type": "uint256"}, {"name": "ReturnDate", "type": "uint256"}, {
+        "name": "Receivers",
+        "type": "address[]"
+    }],
+    "name": "openPension",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
     "type": "function"
 }, {
     "constant": false,
@@ -142,12 +173,20 @@ var contractAbi = [{
     "payable": false,
     "stateMutability": "view",
     "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "PensionOwner", "type": "address"}, {"name": "ReturnToOwner", "type": "bool"}],
+    "name": "closeAndReturnPension",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
 }, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}, {
     "payable": true,
     "stateMutability": "payable",
     "type": "fallback"
 }];
-var contractWallet = '0x66EB47e2175960DE3762fb95F037CcBe714bB81D';
+var contractWallet = '0x8Cc9e7f6d7520ad018530A44D49ad796aC507989';
 var bankContract = null;
 
 $('.btn-buy').click(function () {
