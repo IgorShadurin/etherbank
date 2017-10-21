@@ -12,6 +12,7 @@
 
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/jumbotron.css" rel="stylesheet">
+    <link href="css/docs.css?2" rel="stylesheet">
     <link href="css/main.css?2" rel="stylesheet">
 
     <script src="bower_components/angular/angular.min.js"></script>
@@ -140,22 +141,36 @@
 
             <div style="margin-top: 20px" ng-hide="myCreditRequests.length==0">
                 <h2>Мои кредитные заявки</h2>
-                <div ng-repeat="request in myCreditRequests">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <p>ID: {{request.id}}<br>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
-                                {{request.percentPerDay}}</p>
-                        </div>
-                        <div class="col-sm-8">
-                            <p ng-hide="!request.isActive && request.isPaidBack || request.isActive && !request.isPaidBack">
+
+                <ul class="list-inline">
+                    <li ng-repeat="request in myCreditRequests" class="col-sm-4">
+                        <div class="bs-example" data-example-id="horizontal-dl">
+                            <dl class="dl-horizontal">
+                                <dt>ID</dt>
+                                <dd>{{request.id}}</dd>
+
+                                <dt>Сумма</dt>
+                                <dd>{{request.sum}}</dd>
+
+                                <dt>Количество дней</dt>
+                                <dd>{{request.days}}</dd>
+
+                                <dt>Процент в день</dt>
+                                <dd>{{request.percentPerDay}}</dd>
+                            </dl>
+
+                            <p>
                                 <button class="btn btn-primary"
                                         data-ng-attr-id="currentRequest"
-                                        ng-click="returnLoan(request.id, request.sum)">Вернуть кредит
+                                        ng-click="returnLoan(request.id, request.sum)"
+                                        ng-disabled="!request.isActive && request.isPaidBack || request.isActive && !request.isPaidBack">
+                                    Вернуть кредит
                                 </button>
                             </p>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ul>
+
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="create-deposit">
@@ -203,8 +218,10 @@
             <p><a target="_blank" href="/">Подтвердить данные с помощью ВКонтакте</a></p>
         </div>
     </div>
-    <hr>
 
+
+    <hr>
+    <div style="clear: both"></div>
     <footer>
         <p>&copy; 2017 ДотБай</p>
     </footer>
