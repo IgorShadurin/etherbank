@@ -66,12 +66,16 @@ contract Etherbank is mortal {
 
     function _creditRequest(address UserAddress, uint Days, uint Sum, uint PercentPerDay, bool IsDirectPay, address DirectPayAddress){
         CreditRequests[CreditRequestId] = CreditRequest(CreditRequestId, UserAddress, Sum, Days, PercentPerDay, true, address(0), false, IsDirectPay, DirectPayAddress);
-        UserCreditsIds[msg.sender].push(CreditRequestId);
+        UserCreditsIds[UserAddress].push(CreditRequestId);
         CreditRequestId++;
     }
 
     function createCreditRequest(uint Days, uint Sum, uint PercentPerDay) {
         _creditRequest(msg.sender, Days, Sum, PercentPerDay, false, address(0));
+    }
+
+    function buyForCredit(uint Days, uint Sum, uint PercentPerDay, address SellerAddress){
+        _creditRequest(msg.sender, Days, Sum, PercentPerDay, true, SellerAddress);
     }
 
     function lendByCreditRequest(uint requestId) payable {
@@ -103,9 +107,5 @@ contract Etherbank is mortal {
         assert(users[msg.sender].Exists != true);
         users[msg.sender] = User(FirstName, LastName, MiddleName, true);
         usersCount++;
-    }
-
-    function buyForCredit(uint Days, uint Sum, uint PercentPerDay, address SellerAddress){
-        _creditRequest(msg.sender, Days, Sum, PercentPerDay, true, SellerAddress);
     }
 }

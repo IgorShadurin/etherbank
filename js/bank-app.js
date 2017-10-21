@@ -40,7 +40,7 @@ var contractAbi = [{
     "constant": true,
     "inputs": [],
     "name": "usersCount",
-    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "outputs": [{"name": "", "type": "uint256", "value": "1"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -56,23 +56,23 @@ var contractAbi = [{
     "constant": true,
     "inputs": [{"name": "", "type": "uint256"}],
     "name": "CreditRequests",
-    "outputs": [{"name": "Id", "type": "uint256", "value": "0"}, {
+    "outputs": [{"name": "Id", "type": "uint256", "value": "2"}, {
         "name": "User",
         "type": "address",
-        "value": "0x0000000000000000000000000000000000000000"
-    }, {"name": "Sum", "type": "uint256", "value": "0"}, {
+        "value": "0x9a6ba5c96add06229f0f6d9f6b4bd39c4994eb43"
+    }, {"name": "Sum", "type": "uint256", "value": "100000000000000000"}, {
         "name": "Days",
         "type": "uint256",
-        "value": "0"
-    }, {"name": "PercentPerDay", "type": "uint256", "value": "0"}, {
+        "value": "999"
+    }, {"name": "PercentPerDay", "type": "uint256", "value": "100000000000000000"}, {
         "name": "IsActive",
         "type": "bool",
         "value": false
     }, {
         "name": "PayBackUser",
         "type": "address",
-        "value": "0x0000000000000000000000000000000000000000"
-    }, {"name": "IsPaidBack", "type": "bool", "value": false}, {
+        "value": "0x980f5ac0fe183479b87f78e7892f8002fb9d5401"
+    }, {"name": "IsPaidBack", "type": "bool", "value": true}, {
         "name": "IsDirectPayToSeller",
         "type": "bool",
         "value": false
@@ -110,7 +110,7 @@ var contractAbi = [{
     "constant": true,
     "inputs": [],
     "name": "CreditRequestId",
-    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "outputs": [{"name": "", "type": "uint256", "value": "4"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -269,7 +269,7 @@ angular.module('bankApp', [])
 
             $scope.returnLoan = function (requestId, requestSum) {
                 requestSum = $window.web3.toWei(requestSum);
-                $scope.bankContract.lendByCreditRequest.sendTransaction(requestId, {
+                $scope.bankContract.returnLoan.sendTransaction(requestId, {
                     value: requestSum
                 }, function (error, result) {
                     console.log(error);
@@ -280,23 +280,25 @@ angular.module('bankApp', [])
             $scope.getMyCreditRequests = function () {
                 $scope.myCreditRequests = [];
                 $scope.bankContract.getUserCreditsIds.call($scope.user.address, function (error, result) {
-                    console.log(error);
-                    console.log(result);
                     $.each(result, function (index, item) {
                         $scope.bankContract.CreditRequests.call(item.c[0], function (error, result) {
-                            var id = result[1].c[0];
+                            console.log(error);
+                            console.log(result);
+                            var id = result[0].c[0];
                             var sum = result[2].c[0] / 10000;
                             var days = result[3].c[0];
                             var percentPerDay = result[4].c[0] / 10000;
                             var isActive = result[5];
-
-                            $scope.myCreditRequests.push({
+                            var isPaidBack = result[7];
+                            var request = {
                                 id: id,
                                 sum: sum,
                                 days: days,
                                 percentPerDay: percentPerDay,
-                                isActive: isActive
-                            });
+                                isActive: isActive,
+                                isPaidBack: isPaidBack
+                            };
+                            $scope.myCreditRequests.push(request);
                         });
                     });
                 });

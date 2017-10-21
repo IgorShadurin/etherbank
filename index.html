@@ -15,7 +15,7 @@
     <link href="css/main.css?2" rel="stylesheet">
 
     <script src="bower_components/angular/angular.min.js"></script>
-    <script src="js/bank-app.js"></script>
+    <script src="js/bank-app.js?2"></script>
 </head>
 
 <body>
@@ -143,11 +143,11 @@
                 <div ng-repeat="request in myCreditRequests">
                     <div class="row">
                         <div class="col-sm-4">
-                            <p>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
+                            <p>ID: {{request.id}}<br>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
                                 {{request.percentPerDay}}</p>
                         </div>
                         <div class="col-sm-8">
-                            <p ng-hide="!request.isActive && !request.isPaidBack">
+                            <p ng-hide="!request.isActive && request.isPaidBack || request.isActive && !request.isPaidBack">
                                 <button class="btn btn-primary"
                                         data-ng-attr-id="currentRequest"
                                         ng-click="returnLoan(request.id, request.sum)">Вернуть кредит
@@ -212,6 +212,6 @@
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="js/bank-app.js"></script>
+
 </body>
 </html>
