@@ -185,23 +185,34 @@
 
             <div style="margin-top: 20px" ng-hide="allCreditRequests.length==0">
                 <h2>Заявки на кредит</h2>
-                <div ng-repeat="request in allCreditRequests" class="row">
-                    <div class="col-sm-4">
-                        <p>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
-                            {{request.percentPerDay}}</p>
 
-                    </div>
-                    <div class="col-sm-8">
-                        <p>
-                            <button class="btn btn-primary" ng-hide="!request.isActive"
-                                    data-ng-attr-id="currentRequest"
-                                    ng-click="lendByCreditRequest(request.id, request.sum)">Выдать
-                                кредит
-                            </button>
-                        </p>
-                    </div>
+                <ul class="list-inline">
+                    <li ng-repeat="request in allCreditRequests" class="col-sm-4">
+                        <div class="bs-example" data-example-id="horizontal-dl">
+                            <dl class="dl-horizontal">
 
-                </div>
+                                <dt>Сумма</dt>
+                                <dd>{{request.sum}}</dd>
+
+                                <dt>Количество дней</dt>
+                                <dd>{{request.days}}</dd>
+
+                                <dt>Процент в день</dt>
+                                <dd>{{request.percentPerDay}}</dd>
+                            </dl>
+
+                            <p>
+                                <button class="btn btn-primary"
+                                        data-ng-attr-id="currentRequest"
+                                        ng-click="lendByCreditRequest(request.id, request.sum)"
+                                        ng-disabled="!request.isActive">
+                                    Выдать кредит
+                                </button>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="pension">
