@@ -187,7 +187,7 @@ var contractWallet = '0x4A3bf4F4daa64f94eA6F70019c128036a5764Dfb';
 var bankContract = null;
 
 VK.init(function () {
-    VK.addCallback('onSettingsChanged', function f(location) {
+    VK.addCallback('onSettingsChanged', function f(loc) {
         location.reload(true);
     });
 }, function () {

@@ -8,8 +8,10 @@ use kartik\spinner\Spinner;
 $this->title = 'Items';
 ?>
 <div class="site-index">
-    <?php echo $_GET['api_result'] ?>
     <?php $apiResult = json_decode($_GET['api_result'], true); ?>
+    <div class="text-center">
+        <button class="btn btn-primary btn-open-market">Открыть доступ к товарам группы</button>
+    </div>
     <? if (isset($apiResult['error']) && isset($apiResult['error']['error_code'])): ?>
         <div class="text-center">
             <button class="btn btn-primary btn-open-market">Открыть доступ к товарам группы</button>
