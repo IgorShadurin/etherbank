@@ -101,8 +101,7 @@
             </div>
 
             <div ng-hide="registrationStatus!='COMPLETE'">
-                <p>Ваша регистрация отправлена в блокчейн. После подтверждения транзакции - вам откроется весь
-                    функционал банка. Немного подождите..</p>
+                <p>Транзакция подтверждена! Ожидаем появления данных в провайдере (около минуты)..</p>
             </div>
 
             <div ng-hide="registrationStatus!='REGISTERED'">
@@ -142,8 +141,20 @@
             <div style="margin-top: 20px" ng-hide="myCreditRequests.length==0">
                 <h2>Мои кредитные заявки</h2>
                 <div ng-repeat="request in myCreditRequests">
-                    <p>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
-                        {{request.percentPerDay}}</p>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <p>Сумма: {{request.sum}}<br>Количество дней: {{request.days}}<br>Процент в день:
+                                {{request.percentPerDay}}</p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p ng-hide="!request.isActive && !request.isPaidBack">
+                                <button class="btn btn-primary"
+                                        data-ng-attr-id="currentRequest"
+                                        ng-click="returnLoan(request.id, request.sum)">Вернуть кредит
+                                </button>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -169,7 +180,7 @@
                         <p>
                             <button class="btn btn-primary" ng-hide="!request.isActive"
                                     data-ng-attr-id="currentRequest"
-                                    ng-click="lendByCreditRequest(request.id, request.sum, request.user)">Выдать
+                                    ng-click="lendByCreditRequest(request.id, request.sum)">Выдать
                                 кредит
                             </button>
                         </p>

@@ -46,14 +46,6 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
-    "inputs": [],
-    "name": "returnLoan",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-}, {
-    "constant": false,
     "inputs": [{"name": "requestId", "type": "uint256"}],
     "name": "lendByCreditRequest",
     "outputs": [],
@@ -134,6 +126,14 @@ var contractAbi = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
+    "constant": false,
+    "inputs": [{"name": "requestId", "type": "uint256"}],
+    "name": "returnLoan",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
     "constant": true,
     "inputs": [{"name": "UserAddress", "type": "address"}],
     "name": "getUserCreditsIds",
@@ -146,7 +146,7 @@ var contractAbi = [{
     "stateMutability": "payable",
     "type": "fallback"
 }];
-var contractWallet = '0x12A704B1717caaf52E1e68fB4964E5b8B7006115';
+var contractWallet = '0x66EB47e2175960DE3762fb95F037CcBe714bB81D';
 angular.module('bankApp', [])
     .controller('BankController', ['$scope', '$window', '$interval', function ($scope, $window, $interval) {
             $scope.name = "Криптобанк";
@@ -233,14 +233,17 @@ angular.module('bankApp', [])
                     $scope.user.lastName = result[1];
                     $scope.user.middleName = result[2];
                     if (error !== undefined) {
-                        // 3 - isRegistered
-                        if (result[3] === true) {
+                        var isRegistered = result[3];
+                        var status = $scope.registrationStatus;
+                        if ((status === "COMPLETE" || status === "NOT_CHECKED") && isRegistered) {
                             $scope.registrationStatus = "REGISTERED";
+                        } else if ((status === "COMPLETE" && !isRegistered) || (status === "IN_PROGRESS" || status === "REGISTERED")) {
+                            // do nothing, wait..
                         } else {
                             $scope.registrationStatus = "NOT_REGISTERED";
                         }
                     } else {
-                        if ($scope.registrationStatus !== "COMPLETE") {
+                        if (status !== "COMPLETE") {
                             $scope.registrationStatus = "NOT_REGISTERED";
                         }
                     }
@@ -253,21 +256,27 @@ angular.module('bankApp', [])
                     console.log(result);
                 });
             };
-            $scope.lendByCreditRequest = function (requestId, requestSum, requestUser) {
-                console.log('user: ' + requestUser);
+
+            $scope.lendByCreditRequest = function (requestId, requestSum) {
                 requestSum = $window.web3.toWei(requestSum);
                 $scope.bankContract.lendByCreditRequest.sendTransaction(requestId, {
-                    value: requestSum//,
-                    //gas: 1900000
-                    //to: requestUser
+                    value: requestSum
                 }, function (error, result) {
                     console.log(error);
                     console.log(result);
                 });
             };
-            $scope.returnLoan = function () {
-                // todo implement
+
+            $scope.returnLoan = function (requestId, requestSum) {
+                requestSum = $window.web3.toWei(requestSum);
+                $scope.bankContract.lendByCreditRequest.sendTransaction(requestId, {
+                    value: requestSum
+                }, function (error, result) {
+                    console.log(error);
+                    console.log(result);
+                });
             };
+
             $scope.getMyCreditRequests = function () {
                 $scope.myCreditRequests = [];
                 $scope.bankContract.getUserCreditsIds.call($scope.user.address, function (error, result) {
@@ -292,6 +301,7 @@ angular.module('bankApp', [])
                     });
                 });
             };
+
             $scope.getActiveCreditRequests = function () {
                 $scope.allCreditRequests = [];
                 $scope.bankContract.CreditRequestId.call(function (error, result) {

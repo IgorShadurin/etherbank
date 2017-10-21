@@ -89,8 +89,13 @@ contract Etherbank is mortal {
         CreditRequests[requestId].PayBackUser = msg.sender;
     }
 
-    function returnLoan() payable {
-
+    function returnLoan(uint requestId) payable {
+        CreditRequest memory request = CreditRequests[requestId];
+        assert(request.IsPaidBack == false);
+        assert(request.IsActive == false);
+        assert(request.Sum == msg.value);
+        request.PayBackUser.transfer(msg.value);
+        CreditRequests[requestId].IsPaidBack = true;
     }
 
     function register(string FirstName, string LastName, string MiddleName)
