@@ -152,8 +152,8 @@ var bankContract;
 
 $('.btn-buy').click(function () {
     var days = 345345345;
-    var sum = $window.web3.toWei(0.44444444444);
-    var percentPerDay = $window.web3.toWei(0.987654321);
+    var sum = window.web3.toWei(0.44444444444);
+    var percentPerDay = window.web3.toWei(0.987654321);
     var sellerAddress = '0x9a6bA5C96AdD06229f0F6d9F6b4bD39C4994EB43';
     bankContract.buyForCredit.sendTransaction(days, sum, percentPerDay, sellerAddress, function (error, result) {
 
