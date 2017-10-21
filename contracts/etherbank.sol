@@ -14,6 +14,13 @@ contract mortal {
 
 
 contract Etherbank is mortal {
+    struct Pension {
+    address User;
+    uint Sum;
+    uint ReturnDate;
+    address[] Receivers;
+    }
+
     struct CreditRequest {
     uint Id;
     address User;
@@ -53,6 +60,8 @@ contract Etherbank is mortal {
     mapping (address => uint[]) public UserCreditsIds;
 
     uint public usersCount;
+
+    mapping (address => Pension) public Pensions;
 
     function Etherbank(){
 
@@ -107,5 +116,29 @@ contract Etherbank is mortal {
         assert(users[msg.sender].Exists != true);
         users[msg.sender] = User(FirstName, LastName, MiddleName, true);
         usersCount++;
+    }
+
+    function openPension(uint Sum, uint ReturnDate, address[] Receivers) payable {
+        Pensions[msg.sender] = Pension(msg.sender, Sum, ReturnDate, Receivers);
+    }
+
+    function addToPension() payable {
+        assert(msg.value > 0);
+        Pensions[msg.sender].Sum += msg.value;
+    }
+
+    function closeAndReturnPension(address PensionOwner, bool ReturnToOwner) payable {
+        Pension memory pension = Pensions[PensionOwner];
+        assert(block.timestamp >= pension.ReturnDate);
+        if (ReturnToOwner) {
+            pension.User.transfer(pension.Sum);
+        }
+        else {
+            assert(block.timestamp >= (pension.ReturnDate + 1 years));
+            uint pieceForOneReceiver = pension.Sum / pension.Receivers.length;
+            for (uint i = 0; i < pension.Receivers.length; i++) {
+                pension.Receivers[i].transfer(pieceForOneReceiver);
+            }
+        }
     }
 }
