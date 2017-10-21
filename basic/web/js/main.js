@@ -186,6 +186,14 @@ var contractAbi = [{
 var contractWallet = '0x4A3bf4F4daa64f94eA6F70019c128036a5764Dfb';
 var bankContract = null;
 
+VK.init(function () {
+    VK.addCallback('onSettingsChanged', function f(location) {
+        location.reload(true);
+    });
+}, function () {
+    location.reload(true);
+}, '5.68');
+
 $('.btn-buy').click(function () {
     var currentButton = $(this);
     var price = currentButton.attr('eth-price');

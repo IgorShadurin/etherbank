@@ -9,24 +9,28 @@ $this->title = 'Items';
 ?>
 <div class="site-index">
     <?php echo $_GET['api_result'] ?>
-    <div class="row web3-load text-center">
-        <h1>Ожидание подключения к Metamask для работы с Ethereum</h1>
-        <p>Пожалуйста, для работы с сайтом используйте Google Chrome, а еще установите Metamask</p>
+    <?php $apiResult = json_decode($_GET['api_result'], true); ?>
+    <? if (isset($apiResult['error']) && isset($apiResult['error']['error_code'])): ?>
         <div class="text-center">
-            <?= Spinner::widget([
-                'preset' => Spinner::LARGE,
-                'color' => 'grey',
-                'align' => 'center'
-            ]) ?>
+            <button class="btn btn-primary btn-open-market">Открыть доступ к товарам группы</button>
         </div>
-        <a target="_blank" href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn">
-            <img src="<?= Url::to('@web/images/metamask.png') ?>" alt="">
-        </a>
-    </div>
-
-    <div class="text-center">
-        <button class="btn btn-primary btn-open-market">Открыть доступ к товарам группы</button>
-    </div>
+    <?php else: ?>
+        <div class="row web3-load text-center">
+            <h1>Ожидание подключения к Metamask для работы с Ethereum</h1>
+            <p>Пожалуйста, для работы с сайтом используйте Google Chrome, а еще установите Metamask</p>
+            <div class="text-center">
+                <?= Spinner::widget([
+                    'preset' => Spinner::LARGE,
+                    'color' => 'grey',
+                    'align' => 'center'
+                ]) ?>
+            </div>
+            <a target="_blank"
+               href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn">
+                <img src="<?= Url::to('@web/images/metamask.png') ?>" alt="">
+            </a>
+        </div>
+    <?php endif; ?>
 
     <div class="row goods-row hide text-center">
         <div class="col-sm-4">
