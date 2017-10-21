@@ -21,6 +21,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -32,7 +33,6 @@ AppAsset::register($this);
 
 <footer class="footer1">
     <div class="container">
-
 
 
     </div>

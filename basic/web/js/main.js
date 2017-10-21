@@ -200,6 +200,10 @@ $('.btn-buy').click(function () {
     });
 });
 
+$('.btn-open-market').click(function () {
+    VK.callMethod("showSettingsBox", 134217728);
+});
+
 checkWeb3Interval = setInterval(function () {
     if (typeof Web3 !== 'undefined') {
         window.web3 = new Web3(window.web3.currentProvider);
