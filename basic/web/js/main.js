@@ -151,9 +151,9 @@ var contractWallet = '0x66EB47e2175960DE3762fb95F037CcBe714bB81D';
 var bankContract;
 
 $('.btn-buy').click(function () {
-    var days = 30;
-    var sum = 0.123;
-    var percentPerDay = 0.1;
+    var days = 345345345;
+    var sum = $window.web3.toWei(0.44444444444);
+    var percentPerDay = $window.web3.toWei(0.987654321);
     var sellerAddress = '0x9a6bA5C96AdD06229f0F6d9F6b4bD39C4994EB43';
     bankContract.buyForCredit.sendTransaction(days, sum, percentPerDay, sellerAddress, function (error, result) {
 
@@ -164,7 +164,6 @@ checkWeb3Interval = setInterval(function () {
     if (typeof Web3 !== 'undefined') {
         window.web3 = new Web3(window.web3.currentProvider);
         console.log('web3 ok');
-        alert('add contract info');
         bankContract = window.web3.eth.contract(contractAbi).at(contractWallet);
         console.log(bankContract);
         clearInterval(checkWeb3Interval);
