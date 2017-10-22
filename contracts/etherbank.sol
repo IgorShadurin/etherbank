@@ -14,6 +14,15 @@ contract mortal {
 
 
 contract Etherbank is mortal {
+    struct CollectorJob {
+    uint Id;
+    uint CreditRequestId;
+    uint MoneyForSuccess;
+    address Executor;
+    bool IsComplete;
+    bool IsExists;
+    }
+
     struct Pension {
     address User;
     uint Sum;
@@ -63,6 +72,14 @@ contract Etherbank is mortal {
 
     mapping (address => Pension) public Pensions;
 
+    mapping (address => address[]) public Guarantors;
+
+    mapping (uint => CollectorJob) public CollectorJobs;
+
+    mapping (uint => uint) public CollectorJobByRequest;
+
+    uint public CollectorJobId;
+
     function Etherbank(){
 
     }
@@ -109,6 +126,12 @@ contract Etherbank is mortal {
         assert(request.Sum == msg.value);
         request.PayBackUser.transfer(msg.value);
         CreditRequests[requestId].IsPaidBack = true;
+        // todo check sum for collector and for user. overpay
+        uint CurrentCollectorJobId = CollectorJobByRequest[requestId];
+        if (CollectorJobs[CurrentCollectorJobId].IsExists) {
+            assert(CollectorJobs[CurrentCollectorJobId].IsComplete == false);
+            CollectorJobs[CurrentCollectorJobId].Executor.transfer(CollectorJobs[CurrentCollectorJobId].MoneyForSuccess);
+        }
     }
 
     function register(string FirstName, string LastName, string MiddleName)
@@ -118,7 +141,9 @@ contract Etherbank is mortal {
         usersCount++;
     }
 
-    function openPension(uint ReturnDate, address[] Receivers) payable {
+    function openPension(uint Years, address[] Receivers) payable {
+        uint oneYear = 1 years;
+        uint ReturnDate = block.timestamp + oneYear * Years;
         Pensions[msg.sender] = Pension(msg.sender, msg.value, ReturnDate, Receivers);
     }
 
@@ -140,5 +165,34 @@ contract Etherbank is mortal {
                 pension.Receivers[i].transfer(pieceForOneReceiver);
             }
         }
+    }
+
+    function createMortgage(address SellerAddress, uint Years, uint Sum, uint PercentPerDay, address[] GuarantorsList){
+        assert(GuarantorsList.length >= 2);
+        assert(UserCreditsIds[msg.sender].length >= 100);
+        uint Days = Years * 365;
+        _creditRequest(msg.sender, Days, Sum, PercentPerDay, true, SellerAddress);
+        Guarantors[msg.sender] = GuarantorsList;
+        SellerAddress.transfer(Sum);
+        uint CreatedRequest = CreditRequestId - 1;
+        CreditRequests[CreatedRequest].IsActive = false;
+        CreditRequests[CreatedRequest].PayBackUser = address(this);
+    }
+
+    function createCollectorJob(uint ReturnCreditRequestId, uint MoneyForSuccess){
+        CollectorJobs[CollectorJobId] = CollectorJob(CollectorJobId, ReturnCreditRequestId, MoneyForSuccess, address(0), false, true);
+        CollectorJobByRequest[ReturnCreditRequestId] = CollectorJobId;
+        CollectorJobId++;
+    }
+
+    function checkCreditCollector(uint ReturnCreditRequestId, uint MoneyForSuccess){
+        CreditRequest memory request = CreditRequests[ReturnCreditRequestId];
+        assert(request.IsActive == false);
+        assert(request.IsPaidBack == false);
+        uint CheckTime = 1 days;
+        CheckTime = CheckTime * request.Days;
+        assert(block.timestamp > CheckTime);
+        //request.Sum += MoneyForSuccess;
+        createCollectorJob(ReturnCreditRequestId, MoneyForSuccess);
     }
 }

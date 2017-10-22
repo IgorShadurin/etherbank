@@ -8,6 +8,14 @@ var contractAbi = [{
     "stateMutability": "view",
     "type": "function"
 }, {
+    "constant": true,
+    "inputs": [{"name": "", "type": "uint256"}],
+    "name": "CollectorJobByRequest",
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "constant": false,
     "inputs": [],
     "name": "kill",
@@ -38,10 +46,26 @@ var contractAbi = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
+    "constant": false,
+    "inputs": [{"name": "ReturnCreditRequestId", "type": "uint256"}, {"name": "MoneyForSuccess", "type": "uint256"}],
+    "name": "checkCreditCollector",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
     "constant": true,
     "inputs": [],
     "name": "usersCount",
     "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "", "type": "address"}, {"name": "", "type": "uint256"}],
+    "name": "Guarantors",
+    "outputs": [{"name": "", "type": "address", "value": "0x"}],
     "payable": false,
     "stateMutability": "view",
     "type": "function"
@@ -52,6 +76,33 @@ var contractAbi = [{
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{"name": "", "type": "uint256"}],
+    "name": "CollectorJobs",
+    "outputs": [{"name": "Id", "type": "uint256", "value": "0"}, {
+        "name": "CreditRequestId",
+        "type": "uint256",
+        "value": "0"
+    }, {"name": "MoneyForSuccess", "type": "uint256", "value": "0"}, {
+        "name": "Executor",
+        "type": "address",
+        "value": "0x0000000000000000000000000000000000000000"
+    }, {"name": "IsComplete", "type": "bool", "value": false}, {"name": "IsExists", "type": "bool", "value": false}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "SellerAddress", "type": "address"}, {"name": "Years", "type": "uint256"}, {
+        "name": "Sum",
+        "type": "uint256"
+    }, {"name": "PercentPerDay", "type": "uint256"}, {"name": "GuarantorsList", "type": "address[]"}],
+    "name": "createMortgage",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
 }, {
     "constant": true,
@@ -147,12 +198,28 @@ var contractAbi = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
+    "constant": true,
+    "inputs": [],
+    "name": "CollectorJobId",
+    "outputs": [{"name": "", "type": "uint256", "value": "0"}],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "constant": false,
     "inputs": [{"name": "requestId", "type": "uint256"}],
     "name": "returnLoan",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{"name": "ReturnCreditRequestId", "type": "uint256"}, {"name": "MoneyForSuccess", "type": "uint256"}],
+    "name": "createCollectorJob",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
 }, {
     "constant": true,
@@ -164,7 +231,7 @@ var contractAbi = [{
     "type": "function"
 }, {
     "constant": false,
-    "inputs": [{"name": "ReturnDate", "type": "uint256"}, {"name": "Receivers", "type": "address[]"}],
+    "inputs": [{"name": "Years", "type": "uint256"}, {"name": "Receivers", "type": "address[]"}],
     "name": "openPension",
     "outputs": [],
     "payable": true,
@@ -183,16 +250,16 @@ var contractAbi = [{
     "stateMutability": "payable",
     "type": "fallback"
 }];
-var contractWallet = '0x4A3bf4F4daa64f94eA6F70019c128036a5764Dfb';
+var contractWallet = '0x5BeBb4616cFf11Cc28Ba3e82A65B04f08c7f9453';
 var bankContract = null;
 
 /*VK.init(function () {
-    VK.addCallback('onSettingsChanged', function f(loc) {
-        location.reload(true);
-    });
-}, function () {
-    location.reload(true);
-}, '5.68');*/
+ VK.addCallback('onSettingsChanged', function f(loc) {
+ location.reload(true);
+ });
+ }, function () {
+ location.reload(true);
+ }, '5.68');*/
 
 $('.btn-buy').click(function () {
     var currentButton = $(this);
@@ -209,8 +276,8 @@ $('.btn-buy').click(function () {
 });
 
 /*$('.btn-open-market').click(function () {
-    VK.callMethod("showSettingsBox", 134217728);
-});*/
+ VK.callMethod("showSettingsBox", 134217728);
+ });*/
 
 checkWeb3Interval = setInterval(function () {
     if (typeof Web3 !== 'undefined') {
