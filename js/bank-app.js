@@ -274,6 +274,13 @@ angular.module('bankApp', [])
             $scope.pension.years = 10;
             $scope.pension.receivers = "";
 
+            $scope.mortgage = {};
+            $scope.mortgage.sellerAddress = '';
+            $scope.mortgage.years = 1;
+            $scope.mortgage.sum = 1;
+            $scope.mortgage.percentPerDay = 0.0001;
+            $scope.mortgage.guarantors = '';
+
             $scope.user = {};
             $scope.user.address = "Загрузка..";
             $scope.user.balance = "Загрузка..";
@@ -455,6 +462,13 @@ angular.module('bankApp', [])
                 });
             };
 
+            $scope.createMortgage = function () {
+                var guarantors = $scope.mortgage.guarantors.split(",");
+                $scope.bankContract.createMortgage.sendTransaction($scope.mortgage.sellerAddress, $scope.mortgage.years, $scope.mortgage.sum, $scope.mortgage.percentPerDay, guarantors, function (error, result) {
+                    alert('Отправлено в блокчейн');
+                });
+            };
+
             $interval(function () {
                 if ($scope.isWeb3()) {
                     $window.web3.eth.getAccounts(function (wtf, data) {
@@ -469,7 +483,6 @@ angular.module('bankApp', [])
                             $scope.accountText = 'Введите пароль в своем аккаунте Metamask';
                         }
                     });
-
                 }
             }, 1000);
         }]

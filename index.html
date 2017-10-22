@@ -247,6 +247,35 @@
             <h2>Ипотека</h2>
             <p>Для получения ипотеки у вас и ваших 2 поручителей должно быть как минимум 5 лет активной кредитной
                 истории в нашем банке.</p>
+            <form novalidate>
+                <div class="form-group">
+                    <label for="mortgageSellerAddress">Адрес кошелька застройщика</label>
+                    <input ng-model="mortgage.sellerAddress" type="text" class="form-control" id="mortgageSellerAddress"
+                           placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="mortgageYears">Количество лет</label>
+                    <input ng-model="mortgage.years" type="text" class="form-control" id="mortgageYears"
+                           placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="mortgageSum">Сумма</label>
+                    <input ng-model="mortgage.sum" type="text" class="form-control" id="mortgageSum"
+                           placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="mortgagePercentPerDay">Ежедневный процент</label>
+                    <input ng-model="mortgage.percentPerDay" type="text" class="form-control" id="mortgagePercentPerDay"
+                           placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="mortgageGuarantors">Кошельки поручителей</label>
+                    <input ng-model="mortgage.guarantors" type="text" class="form-control" id="mortgageGuarantors"
+                           placeholder="">
+                </div>
+
+                <button ng-click="createMortgage()" type="submit" class="btn btn-primary">Запросить ипотеку</button>
+            </form>
         </div>
     </div>
 
